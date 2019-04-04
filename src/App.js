@@ -52,7 +52,8 @@ class App extends React.Component {
 					"adult" : 1,
 					"v":"5.92", 
 					"offset" : offset,
-					"access_token": this.state.token 
+					"access_token": this.state.token,
+					"count" : 100
 				}
 			}
 		);
@@ -69,7 +70,6 @@ class App extends React.Component {
 	}
 
 	render() {
-		console.log(this.state)
 		return (
 			<View activePanel={this.state.activePanel}>
 				<Videos 
