@@ -7,7 +7,7 @@ class Videos extends React.Component {
 
     getObjectUrl(url) {
         let search = url.replace('https://vk.com/video_ext.php?','')
-        let object_url = ( search == "") ? null : search.split("&").reduce(function(prev, curr, i, arr) {
+        let object_url = ( search === "") ? null : search.split("&").reduce(function(prev, curr, i, arr) {
             let p = curr.split("=");
             prev[decodeURIComponent(p[0])] = decodeURIComponent(p[1]);
             return prev;
@@ -16,8 +16,12 @@ class Videos extends React.Component {
     }
 
     getStringHref(url) {
-        let obj = this.getObjectUrl(url)
-        return `https://vk.com/video${obj.oid}_${obj.id}`
+        if (url.indexOf('youtube.com') !== -1) {
+            return url
+        } else {
+            let obj = this.getObjectUrl(url)
+            return `https://vk.com/video${obj.oid}_${obj.id}`
+        }
     }
 
 
@@ -25,6 +29,8 @@ class Videos extends React.Component {
 	render() {
 
         this.getObjectUrl('https://vk.com/video_ext.php?oid=-9099896&id=456239279&hash=1b355cbe6355a5dd&__ref=vk.api&api_hash=15543777299b9470af795f99b5cd_GM4TKNJQHE3TG')
+
+        console.log(this.props)
 
 		return (
 			<Panel id="videos">
@@ -40,6 +46,8 @@ class Videos extends React.Component {
                         onClick={this.props.onButtonHandler}
                     >Искать</Button>
                 </Div>
+                <Group>    
+                </Group>
                 <Group>
                     <List>
                         {
@@ -55,7 +63,8 @@ class Videos extends React.Component {
                                             href={this.getStringHref(video.player)}>
                                             <img 
                                                 style={{ maxWidth : 320 }}
-                                                src={video.photo_800}> 
+                                                alt=""
+                                                src={(typeof video.photo_800 == 'undefined') ? video.photo_640 : video.photo_800}> 
                                             </img>
                                         </a>
                                     </Div>
